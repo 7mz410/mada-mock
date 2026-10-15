@@ -139,8 +139,6 @@
   .row .plus::before, .row .plus::after { content: ""; position: absolute; background: var(--ink); inset: 6px 0; }
   .row .plus::after { inset: 0 6px; }
   .row:hover .plus { transform: rotate(90deg); }
-  .peek { position: fixed; z-index: 15; width: 300px; aspect-ratio: 4/3; pointer-events: none; overflow: hidden; opacity: 0; transform: translate(-50%, -50%) scale(.85) rotate(-3deg); transition: opacity .25s, transform .45s var(--ease); left: 0; top: 0; }
-  .peek.on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
 
   /* 80/20 */
   .split { margin-top: 72px; display: grid; grid-template-columns: 80fr 20fr; height: 360px; border: 1px solid var(--line); isolation: isolate; }
@@ -175,8 +173,8 @@
   .logos img { height: 80px; max-width: 100%; width: auto; object-fit: contain; }
   .closing { font-family: var(--display); font-size: clamp(24px, 2.6vw, 40px); line-height: 1.3; max-width: 30em; margin-top: 72px; }
   /* Duotone: grayscale photo multiplied over sand, like one printed ink */
-  .duo, .media figure, .panel figure, .peek { background: var(--sand); }
-  .duo img, .media img, .peek img { filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; }
+  .duo, .media figure, .panel figure { background: var(--sand); }
+  .duo img, .media img { filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; }
   .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 24px; margin-top: 64px; }
   .member figure { margin: 0 0 16px; aspect-ratio: 4/5; overflow: hidden; }
   .member img { object-position: center 25%; transition: transform 1s var(--ease); }
@@ -247,7 +245,6 @@
     .vm > div + div { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid var(--line); }
     .logos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .peek { display: none; }
   }
 </style>
 </head>
@@ -390,7 +387,6 @@
   </section>
 </main>
 
-<div class="peek" id="peek"><img id="peekImg" alt=""></div>
 
 <footer>
   <div class="top">
@@ -510,10 +506,6 @@ function render() {
   $("logos").innerHTML = ORGS.map(o => `<a class="tile" href="${o.url}" target="_blank" rel="noopener"><img src="assets/img/${o.logo}" alt=""><span>${o[lang][0]}</span></a>`).join("");
   $("board").innerHTML = BOARD.map(([id, n, nAr, bio, role], i) => `<article class="member rv" style="--i:${i % 4}"><figure class="duo"><img src="assets/img/board/${id}.jpg" alt="${lang === "ar" ? nAr : n}" loading="lazy"></figure><h3>${lang === "ar" ? nAr : n}</h3><p class="label">${role ? role[+(lang === "ar")] : t("board")}</p>${bio ? `<a class="label bio" href="soon.html">${t("readBio")} +</a>` : ""}</article>`).join("");
   $("lang").textContent = lang === "ar" ? "English" : "العربية";
-  document.querySelectorAll(".row[data-img]").forEach(r => {
-    r.onmouseenter = () => { peekImg.src = "assets/img/" + r.dataset.img; peek.classList.add("on"); };
-    r.onmouseleave = () => peek.classList.remove("on");
-  });
   document.querySelectorAll(".rv:not(.in), .big:not(.in), .split:not(.in)").forEach(el => io.observe(el));
 }
 function setLang(l) {
@@ -525,12 +517,11 @@ function setLang(l) {
 }
 $("lang").onclick = () => setLang(lang === "ar" ? "en" : "ar");
 
-const peek = $("peek"), peekImg = $("peekImg");
-let mx = innerWidth / 2, my = innerHeight / 2, px = 0, py = 0, bx = 0, by = 0;
+let mx = innerWidth / 2, my = innerHeight / 2, bx = 0, by = 0;
 const bgimg = $("bgimg");
 addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; });
 
-// Scroll-driven: hero shrink, active section, parallax, cursor image
+// Scroll-driven: hero shrink, active section, parallax
 const hero = $("hero"), root = document.documentElement, par = $("par");
 const ids = ["about", "approach", "work", "people", "join"];
 const index = document.querySelector(".index"), idxLinks = [...index.querySelectorAll("a")];
@@ -553,8 +544,6 @@ function frame() {
   // Hero background drifts opposite to the cursor
   bx += ((.5 - mx / innerWidth) * 5 - bx) * .06; by += ((.5 - my / vh) * 5 - by) * .06;
   bgimg.style.transform = `translate(${bx.toFixed(2)}%, ${by.toFixed(2)}%)`;
-  px += (mx - px) * .15; py += (my - py) * .15;
-  peek.style.left = px + "px"; peek.style.top = py + "px";
   requestAnimationFrame(frame);
 }
 
