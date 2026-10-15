@@ -55,11 +55,7 @@
   .bar .cta-join { padding: 0 26px; height: 100%; background: #00a7a7; color: #fff; transition: background .2s; }
   .bar .cta-join:hover { background: var(--accent); }
 
-  /* Side ruler + section index */
-  .ruler { position: fixed; top: 56px; bottom: 0; inset-inline-end: 0; width: 44px; z-index: 10; pointer-events: none; }
-  .ruler::before { content: ""; position: absolute; inset: 0 0 0 auto; width: 14px; background: repeating-linear-gradient(to bottom, transparent 0 39px, var(--line-strong) 39px 40px); }
-  [dir="rtl"] .ruler::before { inset: 0 auto 0 0; }
-  .ruler i { position: absolute; inset-inline-end: 0; width: 32px; height: 2px; background: var(--terra); top: calc(var(--p, 0) * 100%); }
+  /* Section index */
   .index { position: fixed; bottom: 28px; inset-inline-end: 64px; z-index: 10; text-align: end; font: 500 15px/1.35 var(--text); text-transform: uppercase; letter-spacing: .04em; }
   .index { transition: transform .5s var(--ease); }
   .index a { display: block; color: var(--line-strong); transition: color .3s, opacity .5s var(--ease), transform .5s var(--ease); }
@@ -90,7 +86,7 @@
   .tag .en { font-size: clamp(12px, 1.5vw, 20px); }
   .tag .en b { font-weight: 500; }
   .lead { position: absolute; inset: auto 0 0; min-height: 34vh; padding: clamp(32px, 6vh, 64px) var(--m); display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: end; background: var(--terra); color: #fff; transform: translateY(calc((1 - var(--h, 0)) * 101%)); }
-  .lead h1 { font-size: clamp(40px, 6.4vw, 104px); line-height: .98; }
+  .lead h1 { font-size: clamp(34px, 4.6vw, 76px); line-height: 1; }
   [dir="rtl"] .lead h1 { line-height: 1.2; }
   .lead p { max-width: 30em; color: rgba(255, 255, 255, .88); }
   .lead .btn:not(.solid) { color: #fff; border-color: rgba(255, 255, 255, .5); }
@@ -159,9 +155,36 @@
   .media { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 72px; }
   .media figure { margin: 0; position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--surface); }
   .media figure:nth-child(2) { translate: 0 var(--par, 0); }
-  .media img { transition: transform 1.2s var(--ease), filter .4s; filter: grayscale(.3); }
-  .media figure:hover img { transform: scale(1.06); filter: none; }
+  .media img { transition: transform 1.2s var(--ease); }
+  .media figure:hover img { transform: scale(1.06); }
   .media figcaption { position: absolute; inset: auto 0 0; padding: 16px; color: #fff; background: rgba(0, 0, 0, .4); display: flex; justify-content: space-between; }
+
+  .sub.wide { max-width: 56em; }
+  .vm { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 72px; border-top: 1px solid var(--line); }
+  .vm > div { padding: 32px 32px 32px 0; }
+  .vm > div + div { border-inline-start: 1px solid var(--line); padding-inline-start: 32px; }
+  .vm .label { color: var(--terra); display: block; margin-bottom: 18px; }
+  .vm p { font-family: var(--display); font-size: clamp(22px, 2vw, 30px); line-height: 1.3; }
+  .cohort-title { margin-top: clamp(96px, 12vw, 160px); }
+  .logos { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); border-inline-start: 1px solid var(--line); margin: 48px 0; }
+  .logos .tile { aspect-ratio: 3/2; display: grid; place-items: center; padding: 20px; text-align: center; border-bottom: 1px solid var(--line); border-inline-end: 1px solid var(--line); font-family: var(--display); font-size: 18px; line-height: 1.2; color: var(--muted); transition: background .2s, color .2s; }
+  .logos .tile:hover { background: var(--surface); color: var(--ink); }
+  .logos img { max-height: 90px; max-width: 100%; width: auto; height: auto; object-fit: contain; }
+  .closing { font-family: var(--display); font-size: clamp(24px, 2.6vw, 40px); line-height: 1.3; max-width: 30em; margin-top: 72px; }
+  /* Duotone: grayscale photo multiplied over sand, like one printed ink */
+  .duo, .media figure, .panel figure, .peek { background: var(--sand); }
+  .duo img, .media img, .peek img { filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; }
+  .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 24px; margin-top: 64px; }
+  .member figure { margin: 0 0 16px; aspect-ratio: 4/5; overflow: hidden; }
+  .member img { object-position: center 25%; transition: transform 1s var(--ease); }
+  .member:hover img { transform: scale(1.04); }
+  .member h3 { font-size: 24px; line-height: 1.15; }
+  .member > .label { color: var(--muted); margin-top: 8px; }
+  .member details { margin-top: 12px; }
+  .member summary { cursor: pointer; color: var(--accent); list-style: none; }
+  .member summary::after { content: " +"; }
+  .member details[open] summary::after { content: " −"; }
+  .member details p { margin-top: 10px; font-size: 15px; color: var(--muted); }
 
   /* Join */
   .join { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(40px, 6vw, 96px); }
@@ -211,13 +234,16 @@
   }
 
   @media (max-width: 860px) {
-    .bar nav, .index, .ruler { display: none; }
+    .bar nav, .index { display: none; }
     .hero { height: 200vh; }
     .lead { grid-template-columns: 1fr; }
     .row { grid-template-columns: 40px 1fr 24px; } .row p { grid-column: 2 / 3; }
     .split { grid-template-columns: 1fr; height: auto; } .split > div { min-height: 180px; } .split .b { border-inline-start: 0; border-top: 1px solid var(--line); }
     .media { grid-template-columns: 1fr 1fr; } .media figure:first-child { grid-column: 1 / -1; aspect-ratio: 4/3; }
-    .join, form { grid-template-columns: 1fr; }
+    .join, form, .vm { grid-template-columns: 1fr; }
+    .vm > div + div { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid var(--line); }
+    .logos { grid-template-columns: repeat(2, 1fr); }
+    .board { grid-template-columns: 1fr 1fr; }
     .peek { display: none; }
   }
 </style>
@@ -240,20 +266,21 @@
 <header class="bar">
   <a class="logo" href="#top" aria-label="Mada home"><svg viewBox="215 195 595 265" aria-hidden="true"><use href="#mada-mark"/></svg></a>
   <nav class="label">
+    <a href="#about" data-i18n="nAbout">About</a>
     <a href="#approach" data-i18n="nApproach">Approach</a>
-    <a href="#model" data-i18n="nModel">Model</a>
-    <a href="#cohort" data-i18n="nCohort">Cohort</a>
+    <a href="#work" data-i18n="nWork">Our work</a>
+    <a href="#people" data-i18n="nPeople">People</a>
   </nav>
   <div class="end"></div>
   <button class="lang label" id="lang" type="button">العربية</button>
   <a class="cta-join label" href="#join" data-i18n="nJoin">Join</a>
 </header>
 
-<div class="ruler" id="ruler" aria-hidden="true"><i></i></div>
 <nav class="index" aria-label="Sections">
+  <a href="#about" data-i18n="nAbout">About</a>
   <a href="#approach" data-i18n="nApproach">Approach</a>
-  <a href="#model" data-i18n="nModel">Model</a>
-  <a href="#cohort" data-i18n="nCohort">Cohort</a>
+  <a href="#work" data-i18n="nWork">Our work</a>
+  <a href="#people" data-i18n="nPeople">People</a>
   <a href="#join" data-i18n="nJoin">Join</a>
 </nav>
 
@@ -267,12 +294,12 @@
       </div>
       <p class="scrollhint label" data-i18n="scroll">Scroll</p>
       <div class="lead">
-        <h1 data-i18n="h1">Palestinian culture, built to last.</h1>
+        <h1 data-i18n="h1">Strengthening the cultural infrastructure for Palestinian agency</h1>
         <div>
-          <p data-i18n="lead">Mada gives Palestinian cultural organizations the resources, expertise and connections to sustain their work on their own terms.</p>
+          <p data-i18n="lead">Preserving memory, nurturing identity, and building a sustainable, interconnected Palestinian cultural ecosystem.</p>
           <div class="ctas">
-            <a class="btn solid" href="#join"><span data-i18n="cta">Join the community</span><span class="arr">→</span></a>
-            <a class="btn" href="https://thisweekinpalestine.com/guarding-the-guardians-of-heritage-culture-and-narrative/" target="_blank" rel="noopener" data-i18n="more">Read the announcement</a>
+            <a class="btn solid" href="#join"><span data-i18n="cta">Join the movement</span><span class="arr">→</span></a>
+            <a class="btn" href="https://thisweekinpalestine.com/guarding-the-guardians-of-heritage-culture-and-narrative/" target="_blank" rel="noopener" data-i18n="more">Read the article</a>
           </div>
         </div>
       </div>
@@ -281,61 +308,78 @@
 
   <div class="marquee label" aria-hidden="true"><div class="track" id="track"></div></div>
 
+  <section class="block" id="about">
+    <div class="head label rv"><b>01</b> / <span data-i18n="nAbout">About</span></div>
+    <h2 class="big" data-split data-i18n="abTitle">A platform for <span class="hl">support</span>, learning and collaboration.</h2>
+    <p class="sub wide rv" data-i18n="abIntro">Mada is a dedicated platform for support, learning, and collaboration, committed to strengthening Palestinian cultural and artistic organizations and sustaining the wider cultural ecosystem. Moving beyond short-term interventions, Mada provides deep, transformative support that empowers cultural institutions to define, develop, and sustain their work independently and on their own terms. By strengthening their long-term sustainability and connecting them with expertise, resources, and one another, Mada nurtures a more connected and resilient cultural community, enabling Palestinian artists and organizations to preserve identity, nurture collective memory, and amplify their stories globally, bridging humanity and asserting agency through the transformative power of art and culture.</p>
+    <div class="vm">
+      <div class="rv"><span class="label" data-i18n="vT">Vision</span><p data-i18n="vision">A thriving, sustainable, and interconnected Palestinian cultural ecosystem in which Palestinian artists and cultural organizations have the agency, resources, expertise, and connections to shape, sustain, and share their own cultural future.</p></div>
+      <div class="rv" style="--i:1"><span class="label" data-i18n="mT">Mission</span><p data-i18n="mission">Mada strengthens Palestinian cultural and artistic organizations by building their sustainability, connecting them to expertise and resources, and creating opportunities for learning, collaboration, and global reach.</p></div>
+    </div>
+  </section>
+
   <section class="block" id="approach">
-    <div class="head label rv"><b>01</b> / <span data-i18n="nApproach">Approach</span></div>
-    <h2 class="big" data-split data-i18n="aTitle">Support that goes <span class="hl">deeper</span> than advice.</h2>
-    <p class="sub rv" data-i18n="aSub">We move beyond short-term interventions. Mada builds lasting strength inside cultural institutions, then connects them to expertise, funders and one another.</p>
+    <div class="head label rv"><b>02</b> / <span data-i18n="nApproach">Approach</span></div>
+    <h2 class="big" data-split data-i18n="aTitle">What makes Mada <span class="hl">different</span></h2>
+    <p class="sub rv" data-i18n="aSub">Mada addresses these challenges through a holistic model centered on practical transformation, institutional resilience, and ecosystem building.</p>
     <div class="rows">
-      <div class="row rv" data-img="oud.jpg"><span class="n label">01</span><h3 data-i18n="p1t">Fundraising readiness</h3><p data-i18n="p1">Skills, tools and networks to pitch projects well, and earned-income models that reduce dependence on donors.</p><span class="plus"></span></div>
-      <div class="row rv" data-img="sleeves.jpg"><span class="n label">02</span><h3 data-i18n="p2t">Organizational resilience</h3><p data-i18n="p2">Stronger governance, leadership succession and structures, with a culture of reflection, adaptation and agility.</p><span class="plus"></span></div>
-      <div class="row rv" data-img="olive.jpg"><span class="n label">03</span><h3 data-i18n="p3t">Long-term sustainability</h3><p data-i18n="p3">Real resources, specialists and hands-on implementation behind every strategic recommendation.</p><span class="plus"></span></div>
-      <div class="row rv" data-img="alley.jpg"><span class="n label">04</span><h3 data-i18n="p4t">A connected ecosystem</h3><p data-i18n="p4">Shared learning, resource exchange and bridges to global partners, across disciplines and regions.</p><span class="plus"></span></div>
+      <div class="row rv" data-img="oud.jpg"><span class="n label">01</span><h3 data-i18n="p1t">Fundraising readiness &amp; revenue diversification</h3><p data-i18n="p1">Equipping organizations with the skills, tools, and networks to pitch projects effectively and develop earned-income models to reduce donor dependency.</p><span class="plus"></span></div>
+      <div class="row rv" data-img="sleeves.jpg"><span class="n label">02</span><h3 data-i18n="p2t">Organizational resilience &amp; mindset shift</h3><p data-i18n="p2">Strengthening internal governance, leadership succession, and organizational structures while fostering a culture of continuous reflection, adaptation, and agility.</p><span class="plus"></span></div>
+      <div class="row rv" data-img="olive.jpg"><span class="n label">03</span><h3 data-i18n="p3t">Long-term sustainability</h3><p data-i18n="p3">Moving beyond advice by placing real resources, specialists, and practical implementation support behind strategic recommendations.</p><span class="plus"></span></div>
+      <div class="row rv" data-img="alley.jpg"><span class="n label">04</span><h3 data-i18n="p4t">Collaboration &amp; the wider ecosystem</h3><p data-i18n="p4">True sustainability cannot happen in isolation. Mada connects organizations across disciplines, regions, and international networks to foster shared learning, resource exchange, and collective leadership. By developing a shared pool of expertise and building bridges to global partners, Mada helps create a resilient cultural infrastructure that protects Palestinian identity, narrative, and agency.</p><span class="plus"></span></div>
     </div>
   </section>
 
-  <section class="block" id="model">
-    <div class="head label rv"><b>02</b> / <span data-i18n="nModel">Model</span></div>
-    <h2 class="big" data-split data-i18n="mTitle">Where the <span class="hl">effort</span> goes.</h2>
+  <section class="block" id="work">
+    <div class="head label rv"><b>03</b> / <span data-i18n="nWork">Our work</span></div>
+    <h2 class="big" data-split data-i18n="mTitle">Two <span class="hl">core</span> functions</h2>
+    <p class="sub rv" data-i18n="mSub">Mada operates on a holistic model designed to deliver both targeted institutional development and broad ecosystem impact.</p>
     <div class="split" id="split">
-      <div class="a"><span class="num">80%</span><p data-i18n="m80">Strengthening organizations: hands-on technical assistance, governance and income strategies.</p></div>
-      <div class="b"><span class="num">20%</span><p data-i18n="m20">Connecting the wider ecosystem.</p></div>
+      <div class="a"><span class="num">80%</span><p data-i18n="m80">Strengthening organizations through hands-on technical assistance, governance, and income generation strategies.</p></div>
+      <div class="b"><span class="num">20%</span><p data-i18n="m20">Connecting the wider ecosystem to energize networks, encourage shared learning, and unlock global resources.</p></div>
     </div>
+
+    <h2 class="big cohort-title" data-split data-i18n="cTitle">The 2026 <span class="hl">pilot</span> cohort</h2>
+    <p class="sub rv" data-i18n="cSub">In 2026, Mada launched its inaugural pilot cohort, partnering closely with five key institutions that represent diverse art forms, geographies, and roles within Palestinian cultural life.</p>
+    <div class="rows" id="orgs"></div>
+    <div class="logos rv" id="logos"></div>
+    <p class="sub wide rv" data-i18n="cAcc">Through tailored accompaniment, Mada offers non-prescriptive support focused on fundraising readiness, organizational capacity development, governance, and revenue diversification. We also actively connect organizations with specialist consultants, advisors, global partners, and funders to help turn strategic plans into concrete action.</p>
+    <div class="media">
+      <figure class="rv"><img src="assets/img/dabke.jpg" alt="Dabke dancers" loading="lazy"><figcaption class="label"><span data-i18n="fg1">Performance</span></figcaption></figure>
+      <figure class="rv" style="--i:1" id="par"><img src="assets/img/ballet.jpg" alt="Ballet students in Ramallah" loading="lazy"><figcaption class="label"><span data-i18n="fg2">Learning</span></figcaption></figure>
+      <figure class="rv" style="--i:2"><img src="assets/img/gate.jpg" alt="Damascus Gate, Jerusalem, 1840s" loading="lazy"><figcaption class="label"><span data-i18n="fg3">Memory</span></figcaption></figure>
+    </div>
+    <p class="closing rv" data-i18n="cClose">Over the long term, Mada strives to create a resilient, interconnected Palestinian cultural infrastructure. By ensuring that cultural institutions have the resources, independence, and connections to thrive, Mada helps safeguard the narrative sovereignty, identity, and agency essential to Palestinian liberation.</p>
   </section>
 
-  <section class="block" id="cohort">
-    <div class="head label rv"><b>03</b> / <span data-i18n="nCohort">Cohort</span></div>
-    <h2 class="big" data-split data-i18n="cTitle">Five institutions. <span class="hl">One</span> ecosystem.</h2>
-    <p class="sub rv" data-i18n="cSub">Our 2026 pilot cohort spans music, performance, cinema, literature and archives.</p>
-    <div class="rows" id="orgs"></div>
-    <div class="media">
-      <figure class="rv"><img src="assets/img/dabke.jpg" alt="Dabke dancers" loading="lazy"><figcaption class="label"><span data-i18n="fg1">Performance</span><span>2026</span></figcaption></figure>
-      <figure class="rv" style="--i:1" id="par"><img src="assets/img/ballet.jpg" alt="Ballet students in Ramallah" loading="lazy"><figcaption class="label"><span data-i18n="fg2">Learning</span><span>2026</span></figcaption></figure>
-      <figure class="rv" style="--i:2"><img src="assets/img/gate.jpg" alt="Damascus Gate, Jerusalem, 1840s" loading="lazy"><figcaption class="label"><span data-i18n="fg3">Memory</span><span>1840s</span></figcaption></figure>
-    </div>
+  <section class="block" id="people">
+    <div class="head label rv"><b>04</b> / <span data-i18n="nPeople">People</span></div>
+    <h2 class="big" data-split data-i18n="pplTitle">The <span class="hl">people</span> behind Mada</h2>
+    <div class="board" id="board"></div>
   </section>
 
   <section class="block join" id="join">
     <div>
-      <div class="head label rv"><b>04</b> / <span data-i18n="nJoin">Join</span></div>
-      <h2 class="big" data-split data-i18n="jTitle">Join the community<span class="dot">.</span></h2>
-      <p class="sub rv" data-i18n="jText">Cultural organization, funder, specialist or supporter: tell us who you are and we will be in touch.</p>
+      <div class="head label rv"><b>05</b> / <span data-i18n="nJoin">Join</span></div>
+      <h2 class="big" data-split data-i18n="jTitle">Join the movement<span class="dot">.</span></h2>
+      <p class="sub rv" data-i18n="jText">Building a resilient, interconnected Palestinian cultural ecosystem is a collective effort. Whether you are an arts and culture organization seeking partnership, a funder looking to create lasting impact, or a passionate individual eager to volunteer your expertise, we invite you to join us. Together, we can nurture creative agency, protect narrative sovereignty, and strengthen the foundations of Palestinian culture worldwide.</p>
     </div>
     <form id="form" novalidate class="rv">
       <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <fieldset class="types full">
-        <legend class="label" data-i18n="fType">How would you like to take part?</legend>
+        <legend class="label" data-i18n="fType">How would you like to engage?</legend>
         <div class="opts">
-          <label><input type="radio" name="type" value="Organization" required><i data-i18n="o1">Cultural organization</i></label>
-          <label><input type="radio" name="type" value="Funder"><i data-i18n="o2">Funder</i></label>
+          <label><input type="radio" name="type" value="Organization" required><i data-i18n="o1">Cultural organization / partner</i></label>
+          <label><input type="radio" name="type" value="Funder"><i data-i18n="o2">Funder / donor</i></label>
           <label><input type="radio" name="type" value="Volunteer"><i data-i18n="o3">Volunteer / specialist</i></label>
-          <label><input type="radio" name="type" value="Supporter"><i data-i18n="o4">Keep me updated</i></label>
+          <label><input type="radio" name="type" value="Supporter"><i data-i18n="o4">Supporter</i></label>
         </div>
       </fieldset>
       <label><span class="label" data-i18n="fName">Full name</span><input name="name" required autocomplete="name"></label>
-      <label><span class="label" data-i18n="fEmail">Email</span><input name="email" type="email" required autocomplete="email"></label>
+      <label><span class="label" data-i18n="fEmail">Email address</span><input name="email" type="email" required autocomplete="email"></label>
       <label><span class="label" data-i18n="fCountry">Country</span><input name="country" autocomplete="country-name"></label>
       <label><span class="label" data-i18n="fCity">City</span><input name="city" autocomplete="address-level2"></label>
-      <label class="full"><span class="label" data-i18n="fMsg">Message or ideas (optional)</span><textarea name="message"></textarea></label>
+      <label class="full"><span class="label" data-i18n="fMsg">Message or ideas for collaboration</span><textarea name="message" data-i18n-ph="fMsgPh" placeholder="Tell us a bit about yourself or your organization and how you'd like to participate"></textarea></label>
       <div class="send full"><p class="status" id="status" role="status" aria-live="polite"></p><button class="btn solid" type="submit"><span data-i18n="send">Send</span><span class="arr">→</span></button></div>
     </form>
   </section>
@@ -364,42 +408,69 @@ const ENDPOINT = "";
 const $ = id => document.getElementById(id);
 
 const ORGS = [
-  { img: "thobe.jpg", en: ["Edward Said National Conservatory of Music", "Palestine's national music education system, with hundreds of students and national youth orchestras."], ar: ["معهد إدوارد سعيد الوطني للموسيقى", "منظومة التعليم الموسيقي الوطنية، بمئات الطلبة وأوركسترات شبابية وطنية."] },
-  { img: "dabke.jpg", en: ["Yabous Cultural Centre", "Jerusalem's foremost multidisciplinary venue for performing arts, cinema and community programmes."], ar: ["مؤسسة يبوس الثقافية", "أبرز فضاء ثقافي متعدد التخصصات في القدس للفنون الأدائية والسينما والبرامج المجتمعية."] },
-  { img: "alley.jpg", en: ["Palestine Film Institute", "Film grants, international market access, digital archiving and worldwide broadcasting."], ar: ["مؤسسة فلسطين للسينما", "منح أفلام، ووصول إلى الأسواق الدولية، وأرشفة رقمية، وبث عالمي."] },
-  { img: "ballet.jpg", en: ["Palestine Festival of Literature", "Bringing international authors to Palestine and Palestinian stories to the world."], ar: ["احتفالية فلسطين للأدب", "تستضيف كتّابًا من العالم في فلسطين وتحمل الحكايات الفلسطينية إلى العالم."] },
-  { img: "olive.jpg", en: ["Yura Visual Storytelling", "Preserving Palestinian visual art, history and narrative through digital platforms and research."], ar: ["يورا للسرد البصري", "تحفظ الفن البصري والتاريخ والرواية الفلسطينية عبر منصات رقمية وبحث."] }
+  { img: "thobe.jpg", en: ["Edward Said National Conservatory of Music", "Palestine's national music education system, teaching hundreds of students across multiple branches and sustaining national youth orchestras to preserve Palestinian musical legacy."],
+    ar: ["معهد إدوارد سعيد الوطني للموسيقى", "منظومة التعليم الموسيقي الوطنية في فلسطين، يدرّس مئات الطلبة في فروع متعددة ويرعى أوركسترات شبابية وطنية تحفظ الإرث الموسيقي الفلسطيني."] },
+  { img: "dabke.jpg", logo: "logo-yabous.png", en: ["Yabous Cultural Centre", "Jerusalem's foremost multidisciplinary cultural venue, maintaining a permanent physical space for performing arts, cinema, and community programming under challenging conditions."],
+    ar: ["مركز يبوس الثقافي", "أبرز فضاء ثقافي متعدد التخصصات في القدس، يحافظ على مكان دائم للفنون الأدائية والسينما والبرامج المجتمعية في ظروف صعبة."] },
+  { img: "alley.jpg", logo: "logo-pfi.svg", en: ["Palestine Film Institute", "An independent structure dedicated to supporting Palestinian cinema through film grants, international market access, digital archiving, and worldwide broadcasting."],
+    ar: ["مؤسسة الفيلم الفلسطيني", "بنية مستقلة لدعم السينما الفلسطينية عبر منح الأفلام، والوصول إلى الأسواق الدولية، والأرشفة الرقمية، والبث حول العالم."] },
+  { img: "ballet.jpg", en: ["Palestine Festival of Literature (PalFest)", "An annual literary festival bringing international authors to Palestine and taking Palestinian stories to global audiences to build international cultural solidarity."],
+    ar: ["احتفالية فلسطين للأدب (بالفست)", "مهرجان أدبي سنوي يستضيف كتّابًا من العالم في فلسطين، ويحمل الحكايات الفلسطينية إلى جمهور عالمي لبناء تضامن ثقافي دولي."] },
+  { img: "olive.jpg", en: ["Yura Visual Storytelling", "An archive and storytelling initiative focused on preserving Palestinian visual art, history, and narrative through digital platforms and research-driven publications."],
+    ar: ["منظمة «يُرى» للسرد البصري", "مبادرة أرشيف وسرد تركّز على حفظ الفن البصري والتاريخ والرواية الفلسطينية عبر منصات رقمية ومنشورات قائمة على البحث."] }
 ];
+
+// Bios from "Board members bios.docx". Arabic bios still to be translated by the client.
+const BOARD = [
+  ["azzam", "Azzam Fakhreddin", "عزّام فخر الدين", "Azzam Fakhreddin is a Jordanian entrepreneur and hospitality executive with over 30 years of experience. He holds a degree in Economics and a postgraduate qualification in Hotel and Restaurant Management. As Vice-Chairman and COO of ATICO Fakhreldin Group, he oversees business development across the Middle East and Europe. Beyond business, he is committed to Palestinian cultural heritage and humanitarian causes, having published Memories of '48 and co-produced Palestine 36, Palestine's official submission for the 2026 Academy Awards, while supporting various humanitarian initiatives for Gaza. His work reflects a commitment to using business, culture, and storytelling to strengthen community ties and preserve Palestinian narratives."],
+  ["dalia", "Dalia Amasheh", "داليا عماشة", "Dalia Amasheh is a Jordanian cultural entrepreneur and arts leader with over 30 years of experience across the creative industries, cultural management, tourism, and events. She is the Founder and Managing Director of Young Minds for Culture and Entertainment and the driving force behind the Alwan International Children's Festival, which brings children and families together through performing arts, street theatre, and interactive artistic experiences. She has also played a key role in major cultural festivals in Jordan and Bahrain and serves on the board of Al Dana Amphitheatre in Bahrain. Dalia holds a master's degree in Tourism Planning and Development from the University of Surrey."],
+  ["maher", "Maher Kaddoura", "ماهر قدورة", "Maher Kaddoura is a Jordan-based entrepreneur, author, speaker, and social innovator of Palestinian heritage. A civil engineering graduate of the University of Nottingham, he rose to become Managing Partner at Accenture in the Middle East before pursuing entrepreneurship and innovation. Through his books, talks, and consulting work, Maher champions creative problem-solving, resilience, and leapfrogging as pathways to meaningful change. Following the loss of his son, he founded the Hikmat Road Safety initiative to improve road safety in Jordan. Having explored more than 90 countries, Maher draws on his professional and personal experiences to inspire individuals and organizations to overcome challenges and create lasting impact."],
+  ["maram", "Maram Samara Fakhouri", "مرام سمارة فاخوري", "Maram is a nonprofit leader with over two decades of experience in public service, international relations, and social impact initiatives. She previously served as Director of International Affairs at the King Abdullah Design & Development Bureau (KADDB) and worked with the Private Office of HM King Abdullah on strategic national initiatives. Dedicated to healthcare advocacy and youth empowerment, Maram co-founded Jordan's first nonprofit supporting underprivileged Multiple Sclerosis (MS) patients through holistic care and system-level advocacy at the Nemat Al Tawfiq Foundation. She is equally committed to enterprise education, equipping youth with entrepreneurial skills for long-term social resilience."],
+  ["muna", "Muna Sukhtian", "منى سختيان", "Muna Sukhtian is a Jordanian leader with extensive experience across the private, public, and non-profit sectors. She is Board Chair of Microfund for Women, Jordan's largest not-for-profit microfinance institution, and has contributed to advancing financial inclusion internationally. Muna serves on the boards of several leading organizations, including the Crown Prince Foundation, Abdul Hameed Shoman Foundation, and Taawon in Palestine, reflecting her commitment to empowering women and youth and advancing social impact. She previously served as Chief of Staff to Queen Rania Al Abdullah and holds a degree in biochemistry from Harvard University and an MBA from INSEAD."],
+  ["nadia", "Nadia Al-Saeed", "نادية السعيد", "Nadia Al-Saeed is a prominent Jordanian banking executive and business leader who served as CEO of Bank al Etihad for 17 years, from 2008 to 2025. With a background spanning banking and public service, she previously served as Jordan's Minister of Communications and Information Technology and held senior advisory and administrative roles in the sector. Recognized among Jordan's most influential women, Nadia has made significant contributions to the country's economic and social development. She holds a bachelor's degree in Economics and Business Administration from the University of Jordan and a master's degree in Finance and Business Administration from the American University in Cairo."],
+  ["zahi", "Zahi Khouri", "زاهي خوري", "Zahi Khouri is a Palestinian-American entrepreneur and business leader, born in Jaffa, and founder of The Coca-Cola Company in Palestine. He co-founded major Palestinian companies, including Paltel and PADICO, and was a founding contributor to Ibtikar Fund, Palestine's first venture capital fund. He currently chairs the NGO Development Center in Jerusalem and the Board of Trustees of Dar Al-Kalima University in Bethlehem. Recognized with the 2015 Oslo Business for Peace Award, Zahi holds an MBA from INSEAD in France and a master's degree in Engineering from the University of Stuttgart in Germany."]
+];
+
 const MARQUEE = {
   en: ["Music", "Cinema", "Literature", "Archives", "Performing arts", "Jerusalem", "Governance", "Fundraising", "Collective memory", "Ecosystem"],
   ar: ["موسيقى", "سينما", "أدب", "أرشيف", "فنون أدائية", "القدس", "حوكمة", "تمويل", "ذاكرة جمعية", "منظومة"]
 };
 
+// Arabic copy drafted by Claude from the English draft; needs review by Mais
 const ar = {
-  nApproach: "منهجيتنا", nModel: "نموذجنا", nCohort: "المؤسسات", nJoin: "انضم", scroll: "مرّر",
-  h1: "ثقافة فلسطينية تدوم.",
-  lead: "تمنح مدى المؤسسات الثقافية الفلسطينية الموارد والخبرات والعلاقات لتستمر في عملها وفق شروطها.",
-  cta: "انضم إلى المجتمع", more: "اقرأ الإعلان",
-  aTitle: "دعم <span class=\"hl\">أعمق</span> من النصيحة.",
-  aSub: "نتجاوز التدخلات قصيرة المدى. تبني مدى قوة دائمة داخل المؤسسات الثقافية، ثم تربطها بالخبرات والممولين وببعضها البعض.",
-  p1t: "الجاهزية لجمع التمويل", p1: "مهارات وأدوات وشبكات لعرض المشاريع بإتقان، ونماذج دخل ذاتي تقلّل الاعتماد على المانحين.",
-  p2t: "المرونة المؤسسية", p2: "حوكمة وتعاقب قيادي وهياكل أقوى، مع ثقافة قائمة على التأمّل والتكيّف.",
-  p3t: "الاستدامة طويلة المدى", p3: "موارد حقيقية وخبراء وتنفيذ عملي خلف كل توصية استراتيجية.",
-  p4t: "منظومة مترابطة", p4: "تعلّم مشترك وتبادل موارد وجسور مع شركاء عالميين، عبر التخصصات والمناطق.",
-  mTitle: "أين يذهب <span class=\"hl\">جهدنا</span>.",
-  m80: "تقوية المؤسسات: مساندة فنية مباشرة، وحوكمة، واستراتيجيات دخل.", m20: "ربط المنظومة الثقافية الأوسع.",
-  cTitle: "خمس مؤسسات. منظومة <span class=\"hl\">واحدة</span>.",
-  cSub: "مجموعتنا التجريبية لعام 2026 تشمل الموسيقى والأداء والسينما والأدب والأرشيف.",
+  nAbout: "عن مدى", nApproach: "منهجيتنا", nWork: "عملنا", nPeople: "الفريق", nJoin: "انضم", scroll: "مرّر",
+  h1: "تعزيز البنية التحتية الثقافية من أجل الفاعلية الفلسطينية",
+  lead: "نصون الذاكرة، ونرعى الهوية، ونبني منظومة ثقافية فلسطينية مستدامة ومترابطة.",
+  cta: "انضم إلى الحراك", more: "اقرأ المقال",
+  abTitle: "منصة <span class=\"hl\">للدعم</span> والتعلّم والتعاون.",
+  abIntro: "مدى منصة مخصّصة للدعم والتعلّم والتعاون، ملتزمة بتعزيز المؤسسات الثقافية والفنية الفلسطينية واستدامة المنظومة الثقافية الأوسع. تتجاوز مدى التدخلات قصيرة المدى، فتقدّم دعمًا عميقًا وتحويليًا يمكّن المؤسسات الثقافية من تحديد عملها وتطويره واستدامته باستقلالية ووفق شروطها. ومن خلال تعزيز استدامتها طويلة المدى وربطها بالخبرات والموارد وببعضها البعض، ترعى مدى مجتمعًا ثقافيًا أكثر ترابطًا ومرونة، يمكّن الفنانين والمؤسسات الفلسطينية من صون الهوية ورعاية الذاكرة الجمعية وإيصال حكاياتهم إلى العالم، بناءً لجسور إنسانية وتأكيدًا للفاعلية عبر قوة الفن والثقافة.",
+  vT: "الرؤية", vision: "منظومة ثقافية فلسطينية مزدهرة ومستدامة ومترابطة، يمتلك فيها الفنانون والمؤسسات الثقافية الفلسطينية الفاعلية والموارد والخبرات والعلاقات لصياغة مستقبلهم الثقافي واستدامته ومشاركته.",
+  mT: "الرسالة", mission: "تعزّز مدى المؤسسات الثقافية والفنية الفلسطينية من خلال بناء استدامتها، وربطها بالخبرات والموارد، وخلق فرص للتعلّم والتعاون والوصول إلى العالم.",
+  aTitle: "ما الذي يميّز <span class=\"hl\">مدى</span>",
+  aSub: "تتصدّى مدى لهذه التحديات عبر نموذج شامل يتمحور حول التحوّل العملي، والمرونة المؤسسية، وبناء المنظومة.",
+  p1t: "الجاهزية لجمع التمويل وتنويع الإيرادات", p1: "تزويد المؤسسات بالمهارات والأدوات والشبكات لعرض مشاريعها بفاعلية، وتطوير نماذج دخل ذاتي تقلّل الاعتماد على المانحين.",
+  p2t: "المرونة المؤسسية وتحوّل العقلية", p2: "تعزيز الحوكمة الداخلية والتعاقب القيادي والهياكل المؤسسية، مع ترسيخ ثقافة التأمّل المستمر والتكيّف والمرونة.",
+  p3t: "الاستدامة طويلة المدى", p3: "تجاوز النصيحة بوضع موارد حقيقية وخبراء ودعم تنفيذي عملي خلف التوصيات الاستراتيجية.",
+  p4t: "التعاون وتعزيز المنظومة الأوسع", p4: "لا يمكن للاستدامة الحقيقية أن تتحقق بمعزل عن الآخرين. تربط مدى المؤسسات عبر التخصصات والمناطق والشبكات الدولية لتعزيز التعلّم المشترك وتبادل الموارد والقيادة الجماعية. ومن خلال تطوير قاعدة خبرات مشتركة وبناء جسور مع شركاء عالميين، تساهم مدى في خلق بنية تحتية ثقافية مرنة تحمي الهوية والرواية والفاعلية الفلسطينية.",
+  mTitle: "وظيفتان <span class=\"hl\">أساسيتان</span>",
+  mSub: "تعمل مدى وفق نموذج شامل يحقّق تطويرًا مؤسسيًا موجّهًا وأثرًا واسعًا على المنظومة.",
+  m80: "تقوية المؤسسات عبر المساندة الفنية المباشرة والحوكمة واستراتيجيات توليد الدخل.", m20: "ربط المنظومة الأوسع لتنشيط الشبكات وتشجيع التعلّم المشترك وفتح الموارد العالمية.",
+  cTitle: "المجموعة <span class=\"hl\">التجريبية</span> 2026",
+  cSub: "أطلقت مدى عام 2026 مجموعتها التجريبية الأولى، بشراكة وثيقة مع خمس مؤسسات رئيسية تمثّل فنونًا وجغرافيات وأدوارًا متنوعة في الحياة الثقافية الفلسطينية.",
+  cAcc: "من خلال مرافقة مصمّمة لكل مؤسسة، تقدّم مدى دعمًا غير إملائي يركّز على الجاهزية لجمع التمويل وتطوير القدرات المؤسسية والحوكمة وتنويع الإيرادات. كما نربط المؤسسات بمستشارين وخبراء وشركاء وممولين عالميين لتحويل الخطط الاستراتيجية إلى عمل ملموس.",
+  cClose: "على المدى البعيد، تسعى مدى إلى خلق بنية تحتية ثقافية فلسطينية مرنة ومترابطة. ومن خلال ضمان امتلاك المؤسسات الثقافية للموارد والاستقلالية والعلاقات اللازمة لتزدهر، تساهم مدى في صون السيادة على الرواية والهوية والفاعلية، وهي أساسية للتحرر الفلسطيني.",
   fg1: "أداء", fg2: "تعلّم", fg3: "ذاكرة",
-  jTitle: "انضم إلى المجتمع<span class=\"dot\">.</span>",
-  jText: "مؤسسة ثقافية، أو جهة مانحة، أو مختص، أو داعم: عرّفنا بنفسك وسنتواصل معك.",
-  fType: "كيف تودّ المشاركة؟", o1: "مؤسسة ثقافية", o2: "جهة مانحة", o3: "متطوع / مختص", o4: "أبقوني على اطلاع",
-  fName: "الاسم الكامل", fEmail: "البريد الإلكتروني", fCountry: "الدولة", fCity: "المدينة", fMsg: "رسالة أو أفكار (اختياري)", send: "إرسال",
-  fAbout: "منصة للدعم والتعلّم والتعاون للمؤسسات الثقافية والفنية الفلسطينية.",
-  fContact: "تواصل", fFollow: "تابعنا", credits: "صور مؤقتة من ويكيميديا كومنز، تُستبدل بصور الشركاء.", heroCredit: "صورة الواجهة: آش هايز، نابلس، عبر",
+  pplTitle: "<span class=\"hl\">الناس</span> وراء مدى", board: "عضو مجلس الإدارة", readBio: "السيرة",
+  jTitle: "انضم إلى الحراك<span class=\"dot\">.</span>",
+  jText: "بناء منظومة ثقافية فلسطينية مرنة ومترابطة جهد جماعي. سواء كنت مؤسسة فنية وثقافية تبحث عن شراكة، أو جهة مانحة تسعى لأثر دائم، أو فردًا شغوفًا يرغب بالتطوع بخبرته، ندعوك للانضمام إلينا. معًا نرعى الفاعلية الإبداعية، ونحمي السيادة على الرواية، ونقوّي أسس الثقافة الفلسطينية حول العالم.",
+  fType: "كيف تودّ المشاركة؟", o1: "مؤسسة ثقافية / شريك", o2: "جهة مانحة / متبرّع", o3: "متطوع / مختص", o4: "داعم",
+  fName: "الاسم الكامل", fEmail: "البريد الإلكتروني", fCountry: "الدولة", fCity: "المدينة", fMsg: "رسالة أو أفكار للتعاون",
+  fMsgPh: "عرّفنا بنفسك أو بمؤسستك وكيف تودّ المشاركة", send: "إرسال",
+  fAbout: "منصة للدعم والتعلّم والتعاون للمؤسسات الثقافية والفنية الفلسطينية.", fContact: "تواصل", fFollow: "تابعنا",
+  credits: "صور مؤقتة من ويكيميديا كومنز، تُستبدل بصور الشركاء.", heroCredit: "صورة الواجهة: آش هايز، نابلس، عبر",
   ok: "شكرًا لك! وصلتنا رسالتك.", err: "تعذّر الإرسال. حاول مرة أخرى أو راسلنا عبر البريد.", req: "اختر نوع المشاركة وأضف اسمك وبريدك."
 };
-const en = { ok: "Thank you. We received your message.", err: "Couldn't send. Please try again or email us.", req: "Choose how you'd like to take part, and add your name and email." };
+const en = { board: "Board member", readBio: "Bio", ok: "Thank you. We received your message.", err: "Couldn't send. Please try again or email us.", req: "Choose how you'd like to engage, and add your name and email." };
 document.querySelectorAll("[data-i18n]").forEach(el => en[el.dataset.i18n] ??= el.innerHTML);
 let lang = "en";
 const t = k => (lang === "ar" ? ar : en)[k];
@@ -429,6 +500,9 @@ function render() {
   const words = MARQUEE[lang].map(w => `<span>${w}</span>`).join("");
   $("track").innerHTML = words + words;
   $("orgs").innerHTML = ORGS.map((o, i) => `<div class="row rv" style="--i:${i}" data-img="${o.img}"><span class="n label">0${i + 1}</span><h3>${o[lang][0]}</h3><p>${o[lang][1]}</p><span class="plus"></span></div>`).join("");
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => { en[el.dataset.i18nPh] ??= el.placeholder; el.placeholder = t(el.dataset.i18nPh); });
+  $("logos").innerHTML = ORGS.map(o => `<div class="tile">${o.logo ? `<img src="assets/img/${o.logo}" alt="${o[lang][0]}">` : `<span>${o[lang][0]}</span>`}</div>`).join("");
+  $("board").innerHTML = BOARD.map(([id, n, nAr, bio], i) => `<article class="member rv" style="--i:${i % 4}"><figure class="duo"><img src="assets/img/board/${id}.jpg" alt="${lang === "ar" ? nAr : n}" loading="lazy"></figure><h3>${lang === "ar" ? nAr : n}</h3><p class="label">${t("board")}</p><details><summary class="label">${t("readBio")}</summary><p lang="en" dir="ltr">${bio}</p></details></article>`).join("");
   $("lang").textContent = lang === "ar" ? "English" : "العربية";
   document.querySelectorAll(".row[data-img]").forEach(r => {
     r.onmouseenter = () => { peekImg.src = "assets/img/" + r.dataset.img; peek.classList.add("on"); };
@@ -450,16 +524,15 @@ let mx = innerWidth / 2, my = innerHeight / 2, px = 0, py = 0, bx = 0, by = 0;
 const bgimg = $("bgimg");
 addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; });
 
-// Scroll-driven: hero shrink, ruler tick, active section, parallax, cursor image
+// Scroll-driven: hero shrink, active section, parallax, cursor image
 const hero = $("hero"), root = document.documentElement, par = $("par");
-const ids = ["approach", "model", "cohort", "join"];
+const ids = ["about", "approach", "work", "people", "join"];
 const index = document.querySelector(".index"), idxLinks = [...index.querySelectorAll("a")];
 const links = [...document.querySelectorAll(".index a, .bar nav a")];
 function frame() {
   const y = scrollY, vh = innerHeight;
   const h = Math.min(1, Math.max(0, (y - vh * .2) / (hero.offsetHeight - vh * 1.4)));
   root.style.setProperty("--h", h.toFixed(3));
-  $("ruler").style.setProperty("--p", (y / Math.max(1, root.scrollHeight - vh)).toFixed(4));
   let cur = "";
   ids.forEach(id => { if ($(id).getBoundingClientRect().top < vh * .5) cur = id; });
   links.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur));
