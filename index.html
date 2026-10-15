@@ -58,7 +58,7 @@
   /* Section index */
   .index { position: fixed; bottom: 28px; inset-inline-end: 64px; z-index: 10; text-align: end; font: 500 15px/1.35 var(--text); text-transform: uppercase; letter-spacing: .04em; }
   .index { transition: transform .5s var(--ease); background: color-mix(in srgb, var(--bg) 94%, transparent); padding: 12px 16px; }
-  .index:not(:has(.seen)) { padding: 0; }
+  .index:not(:has(.seen)) { padding: 0; background: none; }
   .index.off { opacity: 0; pointer-events: none; }
   .index { transition: transform .5s var(--ease), opacity .4s; }
   .index a { display: block; color: var(--line-strong); transition: color .3s, opacity .5s var(--ease), transform .5s var(--ease); }
