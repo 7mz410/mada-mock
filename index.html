@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mada — Palestinian Cultural Community</title>
+<meta name="description" content="Mada strengthens Palestinian cultural organizations so they can sustain their work on their own terms.">
+<meta property="og:title" content="Mada — Palestinian Cultural Community">
+<meta property="og:image" content="assets/logo.png">
+<link rel="icon" href="assets/logo.png">
+<style>
+  /* Thmanyah license limits web embedding: confirm with ask@thmanyah.com before uploading these files live */
+  @font-face { font-family: "Thmanyah Serif Display"; src: url(assets/fonts/thmanyahserifdisplay-Light.woff2) format("woff2"); font-weight: 300; font-display: swap; }
+  @font-face { font-family: "Thmanyah Serif Display"; src: url(assets/fonts/thmanyahserifdisplay-Regular.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Thmanyah Serif Display"; src: url(assets/fonts/thmanyahserifdisplay-Medium.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Thmanyah Sans"; src: url(assets/fonts/thmanyahsans-Regular.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Thmanyah Sans"; src: url(assets/fonts/thmanyahsans-Medium.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Thmanyah Sans"; src: url(assets/fonts/thmanyahsans-Bold.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+
+  :root {
+    /* brand */
+    --sand: #d1bf9f; --teal: #00a8a8; --terra: #d97d55;
+    /* roles */
+    --bg: #f4f1eb; --surface: #ebe5da; --ink: #141817; --muted: #5d625f;
+    --line: rgba(20, 24, 23, .12); --line-strong: rgba(20, 24, 23, .28);
+    --accent: #007a7a; --on-accent: #fff; --invert-bg: #141817; --invert-fg: #f4f1eb;
+    --display: "Thmanyah Serif Display", Georgia, serif;
+    --text: "Thmanyah Sans", system-ui, sans-serif;
+    --m: clamp(16px, 4vw, 56px);
+    --ease: cubic-bezier(.16, 1, .3, 1);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.55 var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; letter-spacing: -.025em; }
+  [dir="rtl"] :is(h1, h2, h3) { letter-spacing: 0; }
+  p { margin: 0; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .label { font: 500 12px/1 var(--text); text-transform: uppercase; letter-spacing: .16em; }
+  [dir="rtl"] .label { letter-spacing: 0; font-size: 14px; }
+
+  /* Header */
+  .bar { position: fixed; inset: 0 0 auto; z-index: 20; height: 56px; display: flex; align-items: stretch; background: color-mix(in srgb, var(--bg) 92%, transparent); border-bottom: 1px solid var(--line); }
+  .bar > * { display: flex; align-items: center; }
+  .bar .logo { padding: 0 20px; border-inline-end: 1px solid var(--line); }
+  .bar .logo svg { height: 30px; width: auto; }
+  .bar nav { gap: 6px; padding: 0 14px; }
+  .bar nav a { padding: 6px 10px; color: var(--muted); transition: color .15s, background .15s; }
+  .bar nav a:hover, .bar nav a.on { color: #fff; background: #00a7a7; }
+  .bar .end { margin-inline-start: auto; }
+  .bar .lang { all: unset; cursor: pointer; padding: 0 22px; height: 100%; border-inline-start: 1px solid var(--line); color: var(--muted); }
+  .bar .lang:hover { color: var(--ink); }
+  .bar .cta-join { padding: 0 26px; height: 100%; background: #00a7a7; color: #fff; transition: background .2s; }
+  .bar .cta-join:hover { background: var(--accent); }
+
+  /* Side ruler + section index */
+  .ruler { position: fixed; top: 56px; bottom: 0; inset-inline-end: 0; width: 44px; z-index: 10; pointer-events: none; }
+  .ruler::before { content: ""; position: absolute; inset: 0 0 0 auto; width: 14px; background: repeating-linear-gradient(to bottom, transparent 0 39px, var(--line-strong) 39px 40px); }
+  [dir="rtl"] .ruler::before { inset: 0 auto 0 0; }
+  .ruler i { position: absolute; inset-inline-end: 0; width: 32px; height: 2px; background: var(--terra); top: calc(var(--p, 0) * 100%); }
+  .index { position: fixed; bottom: 28px; inset-inline-end: 64px; z-index: 10; text-align: end; font: 500 15px/1.35 var(--text); text-transform: uppercase; letter-spacing: .04em; }
+  .index { transition: transform .5s var(--ease); }
+  .index a { display: block; color: var(--line-strong); transition: color .3s, opacity .5s var(--ease), transform .5s var(--ease); }
+  .index a:not(.seen) { opacity: 0; transform: translateY(12px); pointer-events: none; }
+  .index a { transition: color .3s, opacity .5s var(--ease), transform .5s var(--ease), font-size .4s var(--ease); }
+  .index a.on { color: #00a7a7; font-weight: 700; font-size: 150%; }
+
+  /* Hero: pinned while the mark assembles */
+  .hero { height: 260vh; position: relative; }
+  .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .bgimg { position: absolute; inset: -6%; background: url(assets/img/hero-ai2.jpg) center / cover; opacity: .5; will-change: transform; }
+  .mark { position: relative; width: min(78vw, 820px); transform: translateY(calc(var(--h, 0) * -24vh)) scale(calc(1 - var(--h, 0) * .5)); }
+  .mark svg { width: 100%; height: auto; overflow: visible; display: block; }
+  .mark .sq { transform-origin: 100% 50%; transform-box: fill-box; animation: sq 1.1s var(--ease) .2s both; }
+  .mark .stroke { animation: stroke 1.3s var(--ease) .55s both; }
+  .mark .mim { transform-box: fill-box; transform-origin: 50% 100%; animation: rise 1s var(--ease) 1s both; }
+  .mark .fatha { transform-box: fill-box; animation: drop .9s var(--ease) 1.3s both; }
+  .mark .dot { transform-box: fill-box; transform-origin: center; animation: pop .7s cubic-bezier(.3, 1.6, .5, 1) 1.6s both; }
+  @keyframes sq { from { transform: scaleX(0); } }
+  @keyframes stroke { from { transform: translateX(-60%); opacity: 0; } }
+  @keyframes rise { from { transform: translateY(40%) scaleY(.6); opacity: 0; } }
+  @keyframes drop { from { transform: translate(30px, -40px); opacity: 0; } }
+  @keyframes pop { from { transform: scale(0); } }
+  .tag { margin: 14px 0 0 28.5%; font-family: var(--display); color: var(--accent); line-height: 1.3; transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .js .tag:not(.in) { opacity: 0; transform: translateY(10px); }
+  .tag .ar { font-size: clamp(18px, 2.6vw, 34px); font-weight: 300; }
+  .tag .en { font-size: clamp(12px, 1.5vw, 20px); }
+  .tag .en b { font-weight: 500; }
+  .lead { position: absolute; inset: auto 0 0; min-height: 34vh; padding: clamp(32px, 6vh, 64px) var(--m); display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: end; background: var(--terra); color: #fff; transform: translateY(calc((1 - var(--h, 0)) * 101%)); }
+  .lead h1 { font-size: clamp(40px, 6.4vw, 104px); line-height: .98; }
+  [dir="rtl"] .lead h1 { line-height: 1.2; }
+  .lead p { max-width: 30em; color: rgba(255, 255, 255, .88); }
+  .lead .btn:not(.solid) { color: #fff; border-color: rgba(255, 255, 255, .5); }
+  .lead .btn:not(.solid):hover { background: #fff; color: var(--ink); }
+  .lead .ctas { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+  .scrollhint { position: absolute; bottom: 28px; inset-inline-start: var(--m); color: var(--muted); opacity: calc(1 - var(--h, 0) * 3); }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 26px; font: 500 13px var(--text); text-transform: uppercase; letter-spacing: .14em; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+  [dir="rtl"] .btn { letter-spacing: 0; font-size: 15px; }
+  .btn:hover { background: var(--invert-bg); color: var(--invert-fg); border-color: transparent; }
+  .btn.solid { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+  .btn.solid:hover { background: var(--invert-bg); }
+  .btn .arr { transition: transform .3s var(--ease); }
+  .btn:hover .arr { transform: translateX(4px); }
+  [dir="rtl"] .btn .arr { transform: scaleX(-1); }
+
+  /* Marquee */
+  .marquee { border-block: 1px solid var(--line); overflow: hidden; padding: 18px 0; background: var(--bg); position: relative; z-index: 2; }
+  .track { display: flex; gap: 48px; width: max-content; animation: slide 40s linear infinite; }
+  [dir="rtl"] .track { animation-name: slide-rtl; }
+  .marquee:hover .track { animation-play-state: paused; }
+  .track span { display: inline-flex; align-items: center; gap: 48px; white-space: nowrap; color: var(--muted); }
+  .track span::after { content: ""; width: 8px; height: 8px; background: var(--terra); }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  @keyframes slide-rtl { to { transform: translateX(50%); } }
+
+  /* Sections */
+  section.block { padding: clamp(96px, 14vw, 180px) var(--m); position: relative; z-index: 2; background: var(--bg); }
+  .head { display: flex; gap: 14px; color: var(--muted); margin-bottom: 40px; }
+  .head b { color: var(--terra); font-weight: 500; }
+  .big { font-size: clamp(44px, 7.4vw, 124px); line-height: .96; max-width: 14ch; }
+  [dir="rtl"] .big { line-height: 1.2; }
+  .big .w { display: inline-block; }
+  .big .hl { color: var(--accent); font-style: italic; }
+  [dir="rtl"] .big .hl { font-style: normal; }
+  .sub { max-width: 34em; margin-top: 32px; color: var(--muted); font-size: 19px; }
+
+  /* Rows with a cursor-following image */
+  .rows { margin-top: 80px; border-top: 1px solid var(--line); }
+  .row { display: grid; grid-template-columns: 80px 1.1fr 1.4fr 40px; gap: 24px; align-items: baseline; padding: 32px 0; border-bottom: 1px solid var(--line); transition: padding .4s var(--ease); }
+  .row:hover { padding-inline-start: 20px; }
+  .row .n { color: var(--muted); }
+  .row h3 { font-size: clamp(26px, 2.8vw, 44px); line-height: 1.05; transition: color .2s; }
+  .row:hover h3 { color: var(--accent); }
+  .row p { color: var(--muted); max-width: 36em; }
+  .row .plus { justify-self: end; width: 14px; height: 14px; position: relative; transition: transform .4s var(--ease); }
+  .row .plus::before, .row .plus::after { content: ""; position: absolute; background: var(--ink); inset: 6px 0; }
+  .row .plus::after { inset: 0 6px; }
+  .row:hover .plus { transform: rotate(90deg); }
+  .peek { position: fixed; z-index: 15; width: 300px; aspect-ratio: 4/3; pointer-events: none; overflow: hidden; opacity: 0; transform: translate(-50%, -50%) scale(.85) rotate(-3deg); transition: opacity .25s, transform .45s var(--ease); left: 0; top: 0; }
+  .peek.on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
+
+  /* 80/20 */
+  .split { margin-top: 72px; display: grid; grid-template-columns: 80fr 20fr; height: 360px; border: 1px solid var(--line); isolation: isolate; }
+  .split > div { position: relative; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+  .split > div::before { content: ""; position: absolute; inset: 0; transform-origin: bottom; transform: scaleY(var(--fill, 0)); transition: transform 1.4s var(--ease); z-index: -1; }
+  .split .a::before { background: var(--teal); } .split .b::before { background: var(--terra); transition-delay: .25s; }
+  .split .b { border-inline-start: 1px solid var(--line); }
+  .split .num { font-family: var(--display); font-size: clamp(56px, 9vw, 150px); line-height: .9; }
+  .split p { max-width: 24em; color: var(--sand); }
+  .split .num { color: var(--sand); }
+  .split.in > div { --fill: 1; }
+
+  /* Media */
+  .media { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 72px; }
+  .media figure { margin: 0; position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--surface); }
+  .media figure:nth-child(2) { translate: 0 var(--par, 0); }
+  .media img { transition: transform 1.2s var(--ease), filter .4s; filter: grayscale(.3); }
+  .media figure:hover img { transform: scale(1.06); filter: none; }
+  .media figcaption { position: absolute; inset: auto 0 0; padding: 16px; color: #fff; background: rgba(0, 0, 0, .4); display: flex; justify-content: space-between; }
+
+  /* Join */
+  .join { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(40px, 6vw, 96px); }
+  .join .big .dot { color: var(--terra); }
+  form { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); border-inline-start: 1px solid var(--line); align-self: start; }
+  form > * { border-bottom: 1px solid var(--line); border-inline-end: 1px solid var(--line); }
+  label { display: grid; gap: 8px; padding: 18px 20px; }
+  label > span { color: var(--muted); }
+  .full { grid-column: 1 / -1; }
+  input, textarea { font: 400 18px var(--text); color: var(--ink); background: transparent; border: 0; padding: 4px 0; outline: 0; }
+  label:focus-within { background: var(--surface); }
+  textarea { min-height: 90px; resize: vertical; }
+  .types { padding: 18px 20px; margin: 0; border-top: 0; border-inline-start: 0; }
+  .types legend { padding: 0; color: var(--muted); }
+  .types .opts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .types label { padding: 0; display: block; }
+  .types input { position: absolute; opacity: 0; }
+  .types i { font-style: normal; display: inline-block; padding: 10px 16px; border: 1px solid var(--line-strong); cursor: pointer; transition: background .15s, color .15s; }
+  .types i:hover { border-color: var(--ink); }
+  .types input:checked + i { background: var(--invert-bg); color: var(--invert-fg); border-color: transparent; }
+  .types input:focus-visible + i { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .send { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 14px 14px 20px; }
+  .status { color: var(--muted); }
+  .status.ok { color: var(--accent); } .status.err { color: #b0461f; }
+  .hp { position: absolute; left: -9999px; }
+
+  /* Footer */
+  footer { position: relative; z-index: 2; background: var(--sand); color: var(--ink); padding: 64px var(--m) 40px; overflow: hidden; }
+  footer .top { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 32px; }
+  footer .top p { max-width: 24em; }
+  footer .top .label { color: rgba(20, 24, 23, .6); margin-bottom: 12px; display: block; }
+  footer .top a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  footer .logo-big { margin: 96px 0 0 auto; width: min(100%, 340px); }
+  footer .logo-big img { width: 100%; height: auto; display: block; }
+  footer .small { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 56px; font-size: 13px; color: rgba(20, 24, 23, .65); }
+  @media (max-width: 860px) { footer .top { grid-template-columns: 1fr; } }
+
+  /* Entrances (content stays visible without script) */
+  .js .rv { opacity: 0; transform: translateY(28px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: calc(var(--i, 0) * 70ms); }
+  .js .rv.in { opacity: 1; transform: none; }
+  .js .big .w { opacity: 0; transform: translateY(60%); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: calc(var(--i, 0) * 45ms); }
+  .js .big.in .w { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    .js .rv, .js .big .w { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 860px) {
+    .bar nav, .index, .ruler { display: none; }
+    .hero { height: 200vh; }
+    .lead { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 40px 1fr 24px; } .row p { grid-column: 2 / 3; }
+    .split { grid-template-columns: 1fr; height: auto; } .split > div { min-height: 180px; } .split .b { border-inline-start: 0; border-top: 1px solid var(--line); }
+    .media { grid-template-columns: 1fr 1fr; } .media figure:first-child { grid-column: 1 / -1; aspect-ratio: 4/3; }
+    .join, form { grid-template-columns: 1fr; }
+    .peek { display: none; }
+  }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js")</script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="mada-mark">
+      <rect class="sq" x="384.87" y="203.77" width="416.07" height="243.86" fill="#d1bf9f"/>
+      <path class="dot" fill="#d87c54" d="M745.93,410.64c17.61,6.23,22.45,16.6,32.83,16.6s16.2-4.34,16.2-4.34l3.73-18.15-10.42-19.6-10.85-4.34-23,10.65-8.49,19.17Z"/>
+      <path class="mim" fill="#00a7a7" d="M794.96,368.88c-9.03-9.8-20.02-7.26-21.99-6.54-1.97.73-29.62,33.77-31.43,34.49-1.82.73-11.26-13.43-11.26-13.43-3.27,2.38-1.67,6.27,0,13.33l2.86,9.77-3.12,3.47c-3.63,3.43-6.05,3.63-6.05,3.63h-57.71c-2.57-.01-5.61-2.71-6.56-5.1l-24.93-62.14-19.24,27.23s13.43,27.96,14.16,31.16c-9.44,6.47-55.55,6.22-55.55,6.22,0,0,5.45,23.26,7.62,29.43,1.35,3.82,3.53,6.52,5,8.02.82.84,1.91,1.37,3.08,1.51,4.25.51,13.02.63,22.43-.11,7.96-.62,11.28-1.83,13.33-4.7,3.05-4.27,8.02-13.4,9.9-18.52,1.82-4.96,3.63-2.18,3.63-2.18,0,0,.23-.12,6.17,11.62,2.59,5.13,5.62,8.17,8.14,9.95,2.2,1.56,4.79,2.46,7.48,2.64,6.07.41,23.74,1.44,41.39.89,21.79-.68,23.24-4.76,24.33-5.85,1.09-1.09,12.35-19.97,12.35-19.97,0,0,7.99,15.25,15.61,21.06,7.62,5.81,21.06,6.17,27.6,1.82,5.41-3.61,15.05-20.81,18.21-26.62.69-1.27,1.08-2.67,1.15-4.12.38-8.42,1.14-38.56-6.6-46.97ZM794.19,417.9c-25.78,1.82-43.21-13.8-43.21-13.8,0,0,9.8-15.98,25.42-11.98,15.61,3.99,20.7,23.24,17.79,25.78Z"/>
+      <path class="fatha" fill="#00a7a7" d="M650.53,332.44s57.28,0,92.96-18.09c7.49-.5-3.52,8.54-15.58,14.07-12.06,5.53-37.18,17.3-47.23,17.95-10.05.64-32.16-10.41-30.15-13.93Z"/>
+      <path class="stroke" fill="#00a7a7" d="M541.3,335.8l13.25,7.69s9.55-7.54,8.04-26.63c-1.51-19.09-28.64-12.56-37.69-5.02-9.04,7.54-44.22,39.19-36.18,67.83,0,0,6.17,16.51,31.87,16.85,25.71.34,32.56,6.53,32.22,8.23,0,0-21.59,5-92.88,4.38-71.29-.62-229.42-3.02-229.42-3.02l15.42,35.3s2.06,3.43,5.83,3.77c3.77.34,279.8,3.77,285.97,3.08,6.17-.69,19.54-16.11,21.25-23.99,1.71-7.88,8.23-41.13,1.03-49.7-7.2-8.57-25.02-10.28-34.62-10.97-9.6-.69-28.1-1.71-25.36-12.34,2.28-8.85,27.78-14.64,36.23-16.32,1.72-.34,3.51-.04,5.03.84Z"/>
+    </g>
+  </defs>
+</svg>
+
+<header class="bar">
+  <a class="logo" href="#top" aria-label="Mada home"><svg viewBox="215 195 595 265" aria-hidden="true"><use href="#mada-mark"/></svg></a>
+  <nav class="label">
+    <a href="#approach" data-i18n="nApproach">Approach</a>
+    <a href="#model" data-i18n="nModel">Model</a>
+    <a href="#cohort" data-i18n="nCohort">Cohort</a>
+  </nav>
+  <div class="end"></div>
+  <button class="lang label" id="lang" type="button">العربية</button>
+  <a class="cta-join label" href="#join" data-i18n="nJoin">Join</a>
+</header>
+
+<div class="ruler" id="ruler" aria-hidden="true"><i></i></div>
+<nav class="index" aria-label="Sections">
+  <a href="#approach" data-i18n="nApproach">Approach</a>
+  <a href="#model" data-i18n="nModel">Model</a>
+  <a href="#cohort" data-i18n="nCohort">Cohort</a>
+  <a href="#join" data-i18n="nJoin">Join</a>
+</nav>
+
+<main id="top">
+  <div class="hero" id="hero">
+    <div class="stage">
+      <div class="bgimg" id="bgimg" aria-hidden="true"></div>
+      <div class="mark">
+        <svg viewBox="215 195 595 265" role="img" aria-label="Mada"><use href="#mada-mark"/></svg>
+        <div class="tag" aria-hidden="true" id="tag"><div class="ar" dir="rtl" lang="ar">مجتـــمـــع ثقـــافـــي فلسطيـــني</div><div class="en" dir="ltr"><b>Mada</b> - Palestinian . Cultural . Community</div></div>
+      </div>
+      <p class="scrollhint label" data-i18n="scroll">Scroll</p>
+      <div class="lead">
+        <h1 data-i18n="h1">Palestinian culture, built to last.</h1>
+        <div>
+          <p data-i18n="lead">Mada gives Palestinian cultural organizations the resources, expertise and connections to sustain their work on their own terms.</p>
+          <div class="ctas">
+            <a class="btn solid" href="#join"><span data-i18n="cta">Join the community</span><span class="arr">→</span></a>
+            <a class="btn" href="#ARTICLE_URL" data-i18n="more">Read the announcement</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee label" aria-hidden="true"><div class="track" id="track"></div></div>
+
+  <section class="block" id="approach">
+    <div class="head label rv"><b>01</b> / <span data-i18n="nApproach">Approach</span></div>
+    <h2 class="big" data-split data-i18n="aTitle">Support that goes <span class="hl">deeper</span> than advice.</h2>
+    <p class="sub rv" data-i18n="aSub">We move beyond short-term interventions. Mada builds lasting strength inside cultural institutions, then connects them to expertise, funders and one another.</p>
+    <div class="rows">
+      <div class="row rv" data-img="oud.jpg"><span class="n label">01</span><h3 data-i18n="p1t">Fundraising readiness</h3><p data-i18n="p1">Skills, tools and networks to pitch projects well, and earned-income models that reduce dependence on donors.</p><span class="plus"></span></div>
+      <div class="row rv" data-img="sleeves.jpg"><span class="n label">02</span><h3 data-i18n="p2t">Organizational resilience</h3><p data-i18n="p2">Stronger governance, leadership succession and structures, with a culture of reflection, adaptation and agility.</p><span class="plus"></span></div>
+      <div class="row rv" data-img="olive.jpg"><span class="n label">03</span><h3 data-i18n="p3t">Long-term sustainability</h3><p data-i18n="p3">Real resources, specialists and hands-on implementation behind every strategic recommendation.</p><span class="plus"></span></div>
+      <div class="row rv" data-img="alley.jpg"><span class="n label">04</span><h3 data-i18n="p4t">A connected ecosystem</h3><p data-i18n="p4">Shared learning, resource exchange and bridges to global partners, across disciplines and regions.</p><span class="plus"></span></div>
+    </div>
+  </section>
+
+  <section class="block" id="model">
+    <div class="head label rv"><b>02</b> / <span data-i18n="nModel">Model</span></div>
+    <h2 class="big" data-split data-i18n="mTitle">Where the <span class="hl">effort</span> goes.</h2>
+    <div class="split" id="split">
+      <div class="a"><span class="num">80%</span><p data-i18n="m80">Strengthening organizations: hands-on technical assistance, governance and income strategies.</p></div>
+      <div class="b"><span class="num">20%</span><p data-i18n="m20">Connecting the wider ecosystem.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="cohort">
+    <div class="head label rv"><b>03</b> / <span data-i18n="nCohort">Cohort</span></div>
+    <h2 class="big" data-split data-i18n="cTitle">Five institutions. <span class="hl">One</span> ecosystem.</h2>
+    <p class="sub rv" data-i18n="cSub">Our 2026 pilot cohort spans music, performance, cinema, literature and archives.</p>
+    <div class="rows" id="orgs"></div>
+    <div class="media">
+      <figure class="rv"><img src="assets/img/dabke.jpg" alt="Dabke dancers" loading="lazy"><figcaption class="label"><span data-i18n="fg1">Performance</span><span>2026</span></figcaption></figure>
+      <figure class="rv" style="--i:1" id="par"><img src="assets/img/ballet.jpg" alt="Ballet students in Ramallah" loading="lazy"><figcaption class="label"><span data-i18n="fg2">Learning</span><span>2026</span></figcaption></figure>
+      <figure class="rv" style="--i:2"><img src="assets/img/gate.jpg" alt="Damascus Gate, Jerusalem, 1840s" loading="lazy"><figcaption class="label"><span data-i18n="fg3">Memory</span><span>1840s</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="block join" id="join">
+    <div>
+      <div class="head label rv"><b>04</b> / <span data-i18n="nJoin">Join</span></div>
+      <h2 class="big" data-split data-i18n="jTitle">Join the community<span class="dot">.</span></h2>
+      <p class="sub rv" data-i18n="jText">Cultural organization, funder, specialist or supporter: tell us who you are and we will be in touch.</p>
+    </div>
+    <form id="form" novalidate class="rv">
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <fieldset class="types full">
+        <legend class="label" data-i18n="fType">How would you like to take part?</legend>
+        <div class="opts">
+          <label><input type="radio" name="type" value="Organization" required><i data-i18n="o1">Cultural organization</i></label>
+          <label><input type="radio" name="type" value="Funder"><i data-i18n="o2">Funder</i></label>
+          <label><input type="radio" name="type" value="Volunteer"><i data-i18n="o3">Volunteer / specialist</i></label>
+          <label><input type="radio" name="type" value="Supporter"><i data-i18n="o4">Keep me updated</i></label>
+        </div>
+      </fieldset>
+      <label><span class="label" data-i18n="fName">Full name</span><input name="name" required autocomplete="name"></label>
+      <label><span class="label" data-i18n="fEmail">Email</span><input name="email" type="email" required autocomplete="email"></label>
+      <label><span class="label" data-i18n="fCountry">Country</span><input name="country" autocomplete="country-name"></label>
+      <label><span class="label" data-i18n="fCity">City</span><input name="city" autocomplete="address-level2"></label>
+      <label class="full"><span class="label" data-i18n="fMsg">Message or ideas (optional)</span><textarea name="message"></textarea></label>
+      <div class="send full"><p class="status" id="status" role="status" aria-live="polite"></p><button class="btn solid" type="submit"><span data-i18n="send">Send</span><span class="arr">→</span></button></div>
+    </form>
+  </section>
+</main>
+
+<div class="peek" id="peek"><img id="peekImg" alt=""></div>
+
+<footer>
+  <div class="top">
+    <p data-i18n="fAbout">A platform for support, learning and collaboration for Palestinian cultural and artistic organizations.</p>
+    <div><span class="label" data-i18n="fContact">Contact</span><a href="mailto:info@madapcc.org">info@madapcc.org</a></div>
+    <div><span class="label" data-i18n="fFollow">Follow</span><a href="#INSTAGRAM">Instagram</a> · <a href="#LINKEDIN">LinkedIn</a> · <a href="#FACEBOOK">Facebook</a></div>
+  </div>
+  <div class="logo-big rv" aria-hidden="true">
+    <img src="assets/logo2.svg" alt="">
+  </div>
+  <div class="small">
+    <span>© 2026 Mada</span>
+    <span data-i18n="credits">Placeholder images: Wikimedia Commons. To be replaced with partner photos.</span>
+  </div>
+</footer>
+
+<script>
+// Paste the Apps Script web-app URL here after deploying google-apps-script.gs
+const ENDPOINT = "";
+const $ = id => document.getElementById(id);
+
+const ORGS = [
+  { img: "thobe.jpg", en: ["Edward Said National Conservatory of Music", "Palestine's national music education system, with hundreds of students and national youth orchestras."], ar: ["معهد إدوارد سعيد الوطني للموسيقى", "منظومة التعليم الموسيقي الوطنية، بمئات الطلبة وأوركسترات شبابية وطنية."] },
+  { img: "dabke.jpg", en: ["Yabous Cultural Centre", "Jerusalem's foremost multidisciplinary venue for performing arts, cinema and community programmes."], ar: ["مؤسسة يبوس الثقافية", "أبرز فضاء ثقافي متعدد التخصصات في القدس للفنون الأدائية والسينما والبرامج المجتمعية."] },
+  { img: "alley.jpg", en: ["Palestine Film Institute", "Film grants, international market access, digital archiving and worldwide broadcasting."], ar: ["مؤسسة فلسطين للسينما", "منح أفلام، ووصول إلى الأسواق الدولية، وأرشفة رقمية، وبث عالمي."] },
+  { img: "ballet.jpg", en: ["Palestine Festival of Literature", "Bringing international authors to Palestine and Palestinian stories to the world."], ar: ["احتفالية فلسطين للأدب", "تستضيف كتّابًا من العالم في فلسطين وتحمل الحكايات الفلسطينية إلى العالم."] },
+  { img: "olive.jpg", en: ["Yura Visual Storytelling", "Preserving Palestinian visual art, history and narrative through digital platforms and research."], ar: ["يورا للسرد البصري", "تحفظ الفن البصري والتاريخ والرواية الفلسطينية عبر منصات رقمية وبحث."] }
+];
+const MARQUEE = {
+  en: ["Music", "Cinema", "Literature", "Archives", "Performing arts", "Jerusalem", "Governance", "Fundraising", "Collective memory", "Ecosystem"],
+  ar: ["موسيقى", "سينما", "أدب", "أرشيف", "فنون أدائية", "القدس", "حوكمة", "تمويل", "ذاكرة جمعية", "منظومة"]
+};
+
+const ar = {
+  nApproach: "منهجيتنا", nModel: "نموذجنا", nCohort: "المؤسسات", nJoin: "انضم", scroll: "مرّر",
+  h1: "ثقافة فلسطينية تدوم.",
+  lead: "تمنح مدى المؤسسات الثقافية الفلسطينية الموارد والخبرات والعلاقات لتستمر في عملها وفق شروطها.",
+  cta: "انضم إلى المجتمع", more: "اقرأ الإعلان",
+  aTitle: "دعم <span class=\"hl\">أعمق</span> من النصيحة.",
+  aSub: "نتجاوز التدخلات قصيرة المدى. تبني مدى قوة دائمة داخل المؤسسات الثقافية، ثم تربطها بالخبرات والممولين وببعضها البعض.",
+  p1t: "الجاهزية لجمع التمويل", p1: "مهارات وأدوات وشبكات لعرض المشاريع بإتقان، ونماذج دخل ذاتي تقلّل الاعتماد على المانحين.",
+  p2t: "المرونة المؤسسية", p2: "حوكمة وتعاقب قيادي وهياكل أقوى، مع ثقافة قائمة على التأمّل والتكيّف.",
+  p3t: "الاستدامة طويلة المدى", p3: "موارد حقيقية وخبراء وتنفيذ عملي خلف كل توصية استراتيجية.",
+  p4t: "منظومة مترابطة", p4: "تعلّم مشترك وتبادل موارد وجسور مع شركاء عالميين، عبر التخصصات والمناطق.",
+  mTitle: "أين يذهب <span class=\"hl\">جهدنا</span>.",
+  m80: "تقوية المؤسسات: مساندة فنية مباشرة، وحوكمة، واستراتيجيات دخل.", m20: "ربط المنظومة الثقافية الأوسع.",
+  cTitle: "خمس مؤسسات. منظومة <span class=\"hl\">واحدة</span>.",
+  cSub: "مجموعتنا التجريبية لعام 2026 تشمل الموسيقى والأداء والسينما والأدب والأرشيف.",
+  fg1: "أداء", fg2: "تعلّم", fg3: "ذاكرة",
+  jTitle: "انضم إلى المجتمع<span class=\"dot\">.</span>",
+  jText: "مؤسسة ثقافية، أو جهة مانحة، أو مختص، أو داعم: عرّفنا بنفسك وسنتواصل معك.",
+  fType: "كيف تودّ المشاركة؟", o1: "مؤسسة ثقافية", o2: "جهة مانحة", o3: "متطوع / مختص", o4: "أبقوني على اطلاع",
+  fName: "الاسم الكامل", fEmail: "البريد الإلكتروني", fCountry: "الدولة", fCity: "المدينة", fMsg: "رسالة أو أفكار (اختياري)", send: "إرسال",
+  fAbout: "منصة للدعم والتعلّم والتعاون للمؤسسات الثقافية والفنية الفلسطينية.",
+  fContact: "تواصل", fFollow: "تابعنا", credits: "صور مؤقتة من ويكيميديا كومنز، تُستبدل بصور الشركاء.",
+  ok: "شكرًا لك! وصلتنا رسالتك.", err: "تعذّر الإرسال. حاول مرة أخرى أو راسلنا عبر البريد.", req: "اختر نوع المشاركة وأضف اسمك وبريدك."
+};
+const en = { ok: "Thank you. We received your message.", err: "Couldn't send. Please try again or email us.", req: "Choose how you'd like to take part, and add your name and email." };
+document.querySelectorAll("[data-i18n]").forEach(el => en[el.dataset.i18n] ??= el.innerHTML);
+let lang = "en";
+const t = k => (lang === "ar" ? ar : en)[k];
+
+
+// Wrap each word of a headline so it can rise in sequence
+function splitWords(el) {
+  let i = 0;
+  [...el.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(w => {
+        if (!w) return;
+        if (/^\s+$/.test(w)) return frag.append(w);
+        const s = document.createElement("span"); s.className = "w"; s.style.setProperty("--i", i++); s.textContent = w; frag.append(s);
+      });
+      n.replaceWith(frag);
+    } else { n.classList.add("w"); n.style.setProperty("--i", i++); }
+  });
+}
+
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .2 });
+
+function render() {
+  document.querySelectorAll("[data-i18n]").forEach(el => el.innerHTML = t(el.dataset.i18n));
+  document.querySelectorAll("[data-split]").forEach(splitWords);
+  const words = MARQUEE[lang].map(w => `<span>${w}</span>`).join("");
+  $("track").innerHTML = words + words;
+  $("orgs").innerHTML = ORGS.map((o, i) => `<div class="row rv" style="--i:${i}" data-img="${o.img}"><span class="n label">0${i + 1}</span><h3>${o[lang][0]}</h3><p>${o[lang][1]}</p><span class="plus"></span></div>`).join("");
+  $("lang").textContent = lang === "ar" ? "English" : "العربية";
+  document.querySelectorAll(".row[data-img]").forEach(r => {
+    r.onmouseenter = () => { peekImg.src = "assets/img/" + r.dataset.img; peek.classList.add("on"); };
+    r.onmouseleave = () => peek.classList.remove("on");
+  });
+  document.querySelectorAll(".rv:not(.in), .big:not(.in), .split:not(.in)").forEach(el => io.observe(el));
+}
+function setLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
+  render();
+  try { localStorage.setItem("lang", l); } catch {}
+}
+$("lang").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+
+const peek = $("peek"), peekImg = $("peekImg");
+let mx = innerWidth / 2, my = innerHeight / 2, px = 0, py = 0, bx = 0, by = 0;
+const bgimg = $("bgimg");
+addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; });
+
+// Scroll-driven: hero shrink, ruler tick, active section, parallax, cursor image
+const hero = $("hero"), root = document.documentElement, par = $("par");
+const ids = ["approach", "model", "cohort", "join"];
+const index = document.querySelector(".index"), idxLinks = [...index.querySelectorAll("a")];
+const links = [...document.querySelectorAll(".index a, .bar nav a")];
+function frame() {
+  const y = scrollY, vh = innerHeight;
+  const h = Math.min(1, Math.max(0, (y - vh * .2) / (hero.offsetHeight - vh * 1.4)));
+  root.style.setProperty("--h", h.toFixed(3));
+  $("ruler").style.setProperty("--p", (y / Math.max(1, root.scrollHeight - vh)).toFixed(4));
+  let cur = "";
+  ids.forEach(id => { if ($(id).getBoundingClientRect().top < vh * .5) cur = id; });
+  links.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur));
+  // Index climbs from bottom to top with page progress; items appear as their section is reached
+  const p = y / Math.max(1, root.scrollHeight - vh);
+  index.style.transform = `translateY(${(-p * (vh - 56 - index.offsetHeight - 56)).toFixed(1)}px)`;
+  idxLinks.forEach(a => a.classList.toggle("seen", $(a.getAttribute("href").slice(1)).getBoundingClientRect().top < vh * .5));
+  par.style.setProperty("--par", ((par.getBoundingClientRect().top - vh / 2) * -0.08).toFixed(1) + "px");
+  // Hero background drifts opposite to the cursor
+  bx += ((.5 - mx / innerWidth) * 5 - bx) * .06; by += ((.5 - my / vh) * 5 - by) * .06;
+  bgimg.style.transform = `translate(${bx.toFixed(2)}%, ${by.toFixed(2)}%)`;
+  px += (mx - px) * .15; py += (my - py) * .15;
+  peek.style.left = px + "px"; peek.style.top = py + "px";
+  requestAnimationFrame(frame);
+}
+
+let saved; try { saved = localStorage.getItem("lang"); } catch {}
+setLang(saved === "ar" || location.hash === "#ar" ? "ar" : "en");
+requestAnimationFrame(frame);
+setTimeout(() => $("tag").classList.add("in"), 1800);
+
+const form = $("form"), status = $("status");
+form.onsubmit = async e => {
+  e.preventDefault();
+  if (form.website.value) return;
+  if (!form.checkValidity()) { status.className = "status err"; status.textContent = t("req"); return; }
+  const btn = form.querySelector("[type=submit]");
+  btn.disabled = true;
+  const data = new FormData(form);
+  data.append("lang", lang);
+  try {
+    if (!ENDPOINT) throw new Error("No endpoint");
+    await fetch(ENDPOINT, { method: "POST", body: data, mode: "no-cors" });
+    form.reset();
+    status.className = "status ok"; status.textContent = t("ok");
+  } catch {
+    status.className = "status err"; status.textContent = t("err");
+  }
+  btn.disabled = false;
+};
+</script>
+</body>
+</html>
