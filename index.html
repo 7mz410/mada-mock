@@ -71,7 +71,7 @@
   .hero { height: 260vh; position: relative; }
   .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .bgimg { position: absolute; inset: -6%; background: url(assets/img/hero-ai2.jpg) center / cover; opacity: .5; will-change: transform; }
+  .bgimg { position: absolute; inset: -6%; background: url(assets/img/hero-nablus.jpg) center / cover; opacity: .5; will-change: transform; }
   .mark { position: relative; width: min(78vw, 820px); transform: translateY(calc(var(--h, 0) * -24vh)) scale(calc(1 - var(--h, 0) * .5)); }
   .mark svg { width: 100%; height: auto; overflow: visible; display: block; }
   .mark .sq { transform-origin: 100% 50%; transform-box: fill-box; animation: sq 1.1s var(--ease) .2s both; }
@@ -272,7 +272,7 @@
           <p data-i18n="lead">Mada gives Palestinian cultural organizations the resources, expertise and connections to sustain their work on their own terms.</p>
           <div class="ctas">
             <a class="btn solid" href="#join"><span data-i18n="cta">Join the community</span><span class="arr">→</span></a>
-            <a class="btn" href="#ARTICLE_URL" data-i18n="more">Read the announcement</a>
+            <a class="btn" href="https://thisweekinpalestine.com/guarding-the-guardians-of-heritage-culture-and-narrative/" target="_blank" rel="noopener" data-i18n="more">Read the announcement</a>
           </div>
         </div>
       </div>
@@ -354,7 +354,7 @@
   </div>
   <div class="small">
     <span>© 2026 Mada</span>
-    <span data-i18n="credits">Placeholder images: Wikimedia Commons. To be replaced with partner photos.</span>
+    <span><span data-i18n="credits">Placeholder images: Wikimedia Commons. To be replaced with partner photos.</span> · <span data-i18n="heroCredit">Hero photo: Ash Hayes, Nablus, via</span> <a href="https://unsplash.com/photos/qQ_3Se2Vy20" style="text-decoration:underline">Unsplash</a></span>
   </div>
 </footer>
 
@@ -396,7 +396,7 @@ const ar = {
   fType: "كيف تودّ المشاركة؟", o1: "مؤسسة ثقافية", o2: "جهة مانحة", o3: "متطوع / مختص", o4: "أبقوني على اطلاع",
   fName: "الاسم الكامل", fEmail: "البريد الإلكتروني", fCountry: "الدولة", fCity: "المدينة", fMsg: "رسالة أو أفكار (اختياري)", send: "إرسال",
   fAbout: "منصة للدعم والتعلّم والتعاون للمؤسسات الثقافية والفنية الفلسطينية.",
-  fContact: "تواصل", fFollow: "تابعنا", credits: "صور مؤقتة من ويكيميديا كومنز، تُستبدل بصور الشركاء.",
+  fContact: "تواصل", fFollow: "تابعنا", credits: "صور مؤقتة من ويكيميديا كومنز، تُستبدل بصور الشركاء.", heroCredit: "صورة الواجهة: آش هايز، نابلس، عبر",
   ok: "شكرًا لك! وصلتنا رسالتك.", err: "تعذّر الإرسال. حاول مرة أخرى أو راسلنا عبر البريد.", req: "اختر نوع المشاركة وأضف اسمك وبريدك."
 };
 const en = { ok: "Thank you. We received your message.", err: "Couldn't send. Please try again or email us.", req: "Choose how you'd like to take part, and add your name and email." };
