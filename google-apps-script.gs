@@ -1,6 +1,6 @@
 // Setup: create a Google Sheet > Extensions > Apps Script > paste this > Deploy > New deployment
 // > Web app, Execute as: Me, Who has access: Anyone. Copy the URL into ENDPOINT in index.html.
-const NOTIFY = "info@madapcc.org";
+const NOTIFY = "mais@madapcc.org";
 const FIELDS = ["name", "email", "country", "city", "type", "message", "lang"];
 
 function doPost(e) {
