@@ -160,9 +160,12 @@
   .logos .tile span { font-size: 15px; }
   .logos img { height: 80px; max-width: 100%; width: auto; object-fit: contain; }
   .closing { font-family: var(--display); font-size: clamp(24px, 2.6vw, 40px); line-height: 1.3; max-width: 30em; margin-top: 72px; }
+  /* Full-bleed photo band between sections; image drifts with scroll */
+  .band { margin: 0; height: clamp(320px, 70vh, 720px); overflow: hidden; position: relative; z-index: 2; }
+  .band img { width: 100%; height: 130%; object-fit: cover; translate: 0 var(--par, -15%); }
   /* Duotone: grayscale photo multiplied over sand, like one printed ink */
-  .duo, .media figure, .panel figure { background: var(--sand); }
-  .duo img, .media img { filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; }
+  .duo, .panel figure { background: var(--sand); }
+  .duo img { filter: grayscale(.5) contrast(1.05); mix-blend-mode: multiply; }
   .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 24px; margin-top: 64px; }
   .member figure { margin: 0 0 16px; aspect-ratio: 4/5; overflow: hidden; }
   .member img { object-position: center 25%; transition: transform 1s var(--ease); }
@@ -307,6 +310,8 @@
     </div>
   </section>
 
+  <figure class="band" data-par><img src="assets/img/sleeves.jpg" alt="" loading="lazy"></figure>
+
   <section class="block" id="approach">
     <div class="head label rv"><b>02</b> / <span data-i18n="nApproach">Approach</span></div>
     <h2 class="big" data-split data-i18n="aTitle">What makes Mada <span class="hl">different</span></h2>
@@ -318,6 +323,8 @@
       <div class="row rv" data-img="alley.jpg"><span class="n label">04</span><h3 data-i18n="p4t">Collaboration &amp; the wider ecosystem</h3><p data-i18n="p4">True sustainability cannot happen in isolation. Mada connects organizations across disciplines, regions, and international networks to foster shared learning, resource exchange, and collective leadership. By developing a shared pool of expertise and building bridges to global partners, Mada helps create a resilient cultural infrastructure that protects Palestinian identity, narrative, and agency.</p><span class="plus"></span></div>
     </div>
   </section>
+
+  <figure class="band" data-par><img src="assets/img/Mina_and_Friends_3983b772c1.jpg" alt="" loading="lazy"></figure>
 
   <section class="block" id="partners">
     <div class="head label rv"><b>03</b> / <span data-i18n="nWork">Our partners</span></div>
@@ -478,7 +485,7 @@ function render() {
   document.querySelectorAll("[data-split]").forEach(splitWords);
   const words = MARQUEE[lang].map(w => `<span>${w}</span>`).join("");
   $("track").innerHTML = words + words;
-  $("orgs").innerHTML = ORGS.map((o, i) => `<a class="row rv" href="${o.video || "soon.html"}"${o.video ? ' target="_blank" rel="noopener"' : ""} style="--i:${i}" data-img="${o.img}"><span class="n label">0${i + 1}</span><h3>${o[lang][0]}</h3><p>${o[lang][1]}</p><span class="plus"></span></a>`).join("");
+  $("orgs").innerHTML = ORGS.map((o, i) => `<a class="row rv" href="${o.video || "soon.html"}"${o.video ? ' target="_blank" rel="noopener"' : ""} style="--i:${i}"><span class="n label">0${i + 1}</span><h3>${o[lang][0]}</h3><p>${o[lang][1]}</p><span class="plus"></span></a>`).join("");
   document.querySelectorAll("[data-i18n-ph]").forEach(el => { en[el.dataset.i18nPh] ??= el.placeholder; el.placeholder = t(el.dataset.i18nPh); });
   $("logos").innerHTML = ORGS.map(o => `<a class="tile" href="${o.url}" target="_blank" rel="noopener"><img src="assets/img/${o.logo}" alt=""><span>${o[lang][0]}</span></a>`).join("");
   $("board").innerHTML = BOARD.map(([id, n, nAr, bio, role], i) => `<article class="member rv" style="--i:${i % 4}"><figure class="duo"><img src="assets/img/board/${id}.jpg" alt="${lang === "ar" ? nAr : n}" loading="lazy"></figure><h3>${lang === "ar" ? nAr : n}</h3><p class="label">${role ? role[+(lang === "ar")] : t("board")}</p>${bio ? `<a class="label bio" href="soon.html">${t("readBio")} +</a>` : ""}</article>`).join("");
@@ -499,7 +506,8 @@ const bgimg = $("bgimg");
 addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; });
 
 // Scroll-driven: hero shrink, active section, parallax
-const hero = $("hero"), root = document.documentElement, par = $("par");
+const hero = $("hero"), root = document.documentElement, par = $("par"), bands = [...document.querySelectorAll("[data-par]")];
+const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const ids = ["about", "approach", "partners", "people", "join"];
 const index = document.querySelector(".index"), idxLinks = [...index.querySelectorAll("a")];
 const links = [...document.querySelectorAll(".index a, .bar nav a")];
@@ -518,6 +526,7 @@ function frame() {
   index.style.transform = `translateY(${(-p * (vh - 56 - index.offsetHeight - 56)).toFixed(1)}px)`;
   idxLinks.forEach(a => a.classList.toggle("seen", $(a.getAttribute("href").slice(1)).getBoundingClientRect().top < vh * .5));
   par.style.setProperty("--par", ((par.getBoundingClientRect().top - vh / 2) * -0.08).toFixed(1) + "px");
+  if (!still) bands.forEach(b => { const r = b.getBoundingClientRect(); if (r.bottom > 0 && r.top < vh) b.style.setProperty("--par", (-15 + (r.top + r.height) / (vh + r.height) * 15).toFixed(2) + "%"); });
   // Hero background drifts opposite to the cursor
   bx += ((.5 - mx / innerWidth) * 5 - bx) * .06; by += ((.5 - my / vh) * 5 - by) * .06;
   bgimg.style.transform = `translate(${bx.toFixed(2)}%, ${by.toFixed(2)}%)`;
