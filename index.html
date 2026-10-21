@@ -389,14 +389,14 @@
     <img src="assets/logo-var-2.svg" alt="">
   </div>
   <div class="small">
-    <span>© 2026 Mada · Design by <a href="https://el7mz.com" target="_blank" rel="noopener" style="text-decoration:underline">el7mz.com</a></span>
+    <span>© 2026 Mada · <a href="privacy.html" data-i18n="privacy" style="text-decoration:underline">Privacy Policy</a> · <a href="terms.html" data-i18n="terms" style="text-decoration:underline">Terms of Service</a> · Design by <a href="https://el7mz.com" target="_blank" rel="noopener" style="text-decoration:underline">el7mz.com</a></span>
     <span><span data-i18n="credits">Placeholder images: Wikimedia Commons. To be replaced with partner photos.</span> · <span data-i18n="heroCredit">Hero photo: Ash Hayes, Nablus, via</span> <a href="https://unsplash.com/photos/qQ_3Se2Vy20" style="text-decoration:underline">Unsplash</a> · <span data-i18n="bandCredit">Jerusalem Festival 2026 photo: Rania Elias</span></span>
   </div>
 </footer>
 
 <script>
 // Paste the Apps Script web-app URL here after deploying google-apps-script.gs
-const ENDPOINT = "";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwCe8UzBPHm24EDb2-2dO0YDxPkl5ZDoYzlF_gyfqvBaSizbO_w8LPLD-aARTIjVgZcsQ/exec";
 const $ = id => document.getElementById(id);
 
 const ORGS = [
@@ -457,10 +457,10 @@ const ar = {
   fName: "الاسم الكامل", fEmail: "البريد الإلكتروني", fCountry: "الدولة", fCity: "المدينة", fMsg: "رسالة أو أفكار للتعاون",
   fMsgPh: "عرّفنا بنفسك أو بمؤسستك وكيف تودّ المشاركة", send: "إرسال",
   fAbout: "منصة للدعم والتعلّم والتعاون للمؤسسات الثقافية والفنية الفلسطينية.", fContact: "تواصل", fFollow: "تابعنا",
-  credits: "صور مؤقتة من ويكيميديا كومنز، تُستبدل بصور الشركاء.", heroCredit: "صورة الواجهة: آش هايز، نابلس، عبر", bandCredit: "صورة مهرجان القدس 2026: رانيا إلياس",
-  ok: "شكرًا لك! وصلتنا رسالتك.", err: "تعذّر الإرسال. شكرًا لاهتمامكم، الموقع قيد الإنشاء.", soon: "قيد الإنشاء", req: "اختر نوع المشاركة وأضف اسمك وبريدك."
+  credits: "صور مؤقتة من ويكيميديا كومنز، تُستبدل بصور الشركاء.", heroCredit: "صورة الواجهة: آش هايز، نابلس، عبر", privacy: "سياسة الخصوصية", terms: "شروط الاستخدام", bandCredit: "صورة مهرجان القدس 2026: رانيا إلياس",
+  ok: "شكرًا لك! وصلتنا رسالتك.", err: "تعذّر الإرسال. حاول مرة أخرى أو راسلنا عبر البريد.", soon: "قيد الإنشاء", req: "اختر نوع المشاركة وأضف اسمك وبريدك."
 };
-const en = { board: "Board member", readBio: "Bio", ok: "Thank you. We received your message.", err: "Couldn't send. Thank you for your interest; our website is under construction.", soon: "Under construction", req: "Choose how you'd like to engage, and add your name and email." };
+const en = { board: "Board member", readBio: "Bio", ok: "Thank you. We received your message.", err: "Couldn't send. Please try again or email us.", soon: "Under construction", req: "Choose how you'd like to engage, and add your name and email." };
 document.querySelectorAll("[data-i18n]").forEach(el => en[el.dataset.i18n] ??= el.innerHTML);
 let lang = "en";
 const t = k => (lang === "ar" ? ar : en)[k];
@@ -493,6 +493,7 @@ function render() {
   document.querySelectorAll("[data-i18n-ph]").forEach(el => { en[el.dataset.i18nPh] ??= el.placeholder; el.placeholder = t(el.dataset.i18nPh); });
   $("logos").innerHTML = ORGS.map(o => `<a class="tile" href="${o.url}" target="_blank" rel="noopener"><img src="assets/img/${o.logo}" alt=""><span>${o[lang][0]}</span></a>`).join("");
   $("board").innerHTML = BOARD.map(([id, n, nAr, bio, role], i) => `<article class="member rv" style="--i:${i % 4}"><figure class="duo"><img src="assets/img/board/${id}.jpg" alt="${lang === "ar" ? nAr : n}" loading="lazy"></figure><h3>${lang === "ar" ? nAr : n}</h3><p class="label">${role ? role[+(lang === "ar")] : t("board")}</p>${bio ? `<a class="label bio" href="soon.html">${t("readBio")} +</a>` : ""}</article>`).join("");
+  document.querySelectorAll("[data-i18n=privacy], [data-i18n=terms]").forEach(el => el.hash = lang === "ar" ? "ar" : "");
   document.querySelectorAll(".soon").forEach(el => el.dataset.tip = t("soon"));
   $("lang").textContent = lang === "ar" ? "English" : "العربية";
   document.querySelectorAll(".rv:not(.in), .big:not(.in)").forEach(el => io.observe(el));

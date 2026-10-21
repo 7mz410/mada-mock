@@ -1,0 +1,5 @@
+# Send all http:// traffic to https:// (keeps .well-known open for SSL renewal)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
